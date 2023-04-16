@@ -1,7 +1,7 @@
 # Chat-GPT-Localize-CN
 
 ## How to use
-1. Download the .html file, and move it to your desktop.
+1. Download the ![.html file](https://github.com/Henryyy-Hung/Chat-GPT-Localize-CN/raw/main/GPT-Playground.html), and move it to your desktop.
 2. Open it by text editor.
 3. Scroll to line 423, replace the the "sk-000000000000000000000000000000000000000000000000" by your own open-ai api key. <br />`line 423:   <option value="sk-000000000000000000000000000000000000000000000000" selected>My API KEY</option>`
 4. Ctrl + S, and close the text editor.
