@@ -1,7 +1,8 @@
 # Chat-GPT-Localize-CN
 
 ## Aim
-
+ - Use ChatGPT Playground by api key in areas blocked by OpenAI, e.g., Russia, China, Cuba and etc.
+ - Use one html file only.
 
 ## How to use
 1. Download the [.html file](https://github.com/Henryyy-Hung/Chat-GPT-Localize-CN/archive/refs/heads/main.zip), and move it to your desktop.
