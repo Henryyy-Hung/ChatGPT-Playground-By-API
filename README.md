@@ -8,4 +8,4 @@
 5. open the html file, and enjoy your AI.
 
 ## Demo
-![image](https://user-images.githubusercontent.com/78750074/232291540-2f6f26b3-d391-4d2b-b119-29aaf5580781.png)
+![image](https://user-images.githubusercontent.com/78750074/232292140-ecf304ef-4705-4cd7-a3a4-ac9a10e64dbd.png)
