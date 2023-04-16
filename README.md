@@ -1,4 +1,4 @@
-# Chat-GPT-Localize-CN
+# ChatGPT-Playground-By-API
 
 ## Aim
  - Use ChatGPT Playground by api key in areas blocked by OpenAI, e.g., Russia, China, Cuba and etc.
