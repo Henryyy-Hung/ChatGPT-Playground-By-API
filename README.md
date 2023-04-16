@@ -3,6 +3,7 @@
 ## Aim
  - Use ChatGPT Playground by api key in areas blocked by OpenAI, e.g., Russia, China, Cuba and etc.
  - Use one html file only.
+ - Save all lazy guys (for turn-on vpn) in blocked area. Yeah.
 
 ## How to use (Takes you 1 mins)
 1. Download the [.html file](https://github.com/Henryyy-Hung/Chat-GPT-Localize-CN/archive/refs/heads/main.zip), and drag it to your desktop.
