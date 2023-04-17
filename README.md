@@ -1,5 +1,7 @@
 # ChatGPT-Playground-By-API
 
+## 99%还原GPT playground，是流式输出！把你的api key放进去就可以用了！！！
+
 ## Aim
  - Use ChatGPT Playground by api key in areas blocked by OpenAI, e.g., Russia, China, Cuba and etc.
  - Use one html file only.
