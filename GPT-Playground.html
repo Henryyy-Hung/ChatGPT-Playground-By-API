@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat-GPT Playground</title>
 	
+	<script>
+	const apiKeys = [
+		{label: "API KEY 1", key: "YOUR_API_KEY_HERE"},
+		{label: "API KEY 2", key: "YOUR_API_KEY_HERE"}
+	];
+    </script>
+	
     <style>
 		* {
 			box-sizing: border-box;
@@ -144,7 +151,7 @@
 			border-radius: 5px;
 		}
 		
-		input.parameter-value:hover {
+		input.parameter-value:hover, div.parameter-panel-grid:hover input.parameter-value {
 			border: solid 2px #ececf1;
 			outline: none;
 			border-radius: 5px;
@@ -201,12 +208,12 @@
 		}
 		
 		div[class$=message-grid] {
-			padding: 16px 16px 16px 24px;
+			padding: 16px;
 		}
 		div[class$=message-grid]:hover {
 			background: #f7f7f8;
 		}
-		
+  
 		div.add-message-grid {
 			display: flex;
 			flex-direction: row;
@@ -249,6 +256,7 @@
 			align-items: center;
 			align-self: flex-start;
 			margin-top: 14px;
+			margin-left
 			opacity: 0.4;
 			flex: 0 0 0px;
 		}
@@ -278,6 +286,7 @@
 			padding: 12px;
 			line-height: 24px;
 			font-size: 16px;
+			box-sizing: border-box;
 			font-family: sans-serif;
 			letter-spacing: 1px;
 			overflow: hidden;
@@ -337,8 +346,6 @@
 
     </style>
 	
-    <script>
-    </script>
 </head>
 
 	<body>
@@ -369,7 +376,7 @@
 							</div>
 
 							<div class="message-input-wrapper">
-								<textarea class="message-input" rows="1" tabindex="1" placeholder="Enter a message here." header="assistant" style="height: 48px;"></textarea>
+								<textarea class="message-input" rows="1" tabindex="1" placeholder="Enter a message here." style="height: 48px;"></textarea>
 							</div>
 							
 							<div class="message-deletion-wrapper">
@@ -416,11 +423,22 @@
 				
 				<div class="parameter-panel-grid">
 					<div class="parameter-info-wrapper">
+						<label class="parameter-name" for="mode">Mode</label>
+					</div>
+					<div class="parameter-menu-wrapper">
+						<select name="mode" id="mode">
+							<option value="true" selected>Stream</option>
+							<option value="false">Non-stream</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="parameter-panel-grid">
+					<div class="parameter-info-wrapper">
 						<label class="parameter-name" for="apikey">API KEY</label>
 					</div>
 					<div class="parameter-menu-wrapper">
 						<select name="apikey" id="apikey">
-							<option value="sk-000000000000000000000000000000000000000000000000" selected>My API KEY</option>
 						</select>
 					</div>
 				</div>
@@ -431,7 +449,7 @@
 						<input class="parameter-value" type="text" value="256" >
 					</div>
 					<div class="parameter-slider-wrapper">
-						<input class="parameter-slider" type="range" id="max_tokens" min="1" max="2048" step="1" value="512">
+						<input class="parameter-slider" type="range" id="max_tokens" min="1" max="2048" step="1" value="1024">
 					</div>
 				</div>
 				
@@ -479,8 +497,17 @@
 			</div>
 		</div>
 
-		
 		<script>
+			// load the apikeys to drop down menu
+			let dropDownMenu = document.getElementById("apikey");
+			for (let i = 0; i < apiKeys.length; i++) {
+				if (i == 0) {
+					dropDownMenu.innerHTML += `<option value="${apiKeys[i].key}" selected>${apiKeys[i].label}</option>`;
+				}
+				else {
+					dropDownMenu.innerHTML += `<option value="${apiKeys[i].key}">${apiKeys[i].label}</option>`;
+				}
+			}
 			
 			// initialize parameter sliders
 			let parameterPanelGrids = document.getElementsByClassName("parameter-panel-grid");
@@ -505,6 +532,40 @@
 				parameterSlider.oninput();
 				parameterSlider.oninput();
 			}
+			
+			function switchRoleOfMessage(spanObj) {
+				spanObj.textContent = (spanObj.textContent == "user")? "assistant":"user";
+			}
+			
+			function setHeightOfTextarea(textareaObj) {
+			
+				textareaObj.style.height = "auto";
+				textareaObj.style.height = textareaObj.scrollHeight + "px";
+				
+				/*
+				let style = window.getComputedStyle(textareaObj);
+				
+				textareaObj.removeAttribute('rows')
+				textareaObj.style.height = 'auto'
+				
+				let scrollHeight = textareaObj.scrollHeight;
+				let lineHeight = parseInt(style.getPropertyValue('line-height').replace("px", ""));
+				let paddingTop = parseInt(style.getPropertyValue('padding-Top').replace("px", ""));
+				let paddingBottom = parseInt(style.getPropertyValue('padding-Bottom').replace("px", ""));
+				let rowsNum = Math.round((scrollHeight - paddingTop - paddingBottom) / lineHeight)
+				textareaObj.setAttribute('rows', rowsNum)
+				
+				console.log(`scrollHeight ${scrollHeight}`);
+				console.log(`lineHeight ${lineHeight}`);
+				console.log(`paddingTop ${paddingTop}`);
+				console.log(`paddingBottom ${paddingBottom}`);
+				console.log(`rowsNum ${rowsNum}`);
+				*/
+			}
+			
+			function removeMessageGrid(divObj) {
+				divObj.parentElement.remove();
+			}
 
 			let chatMessagePanel = document.getElementsByClassName("chat-message-panel")[0];
 			let chatInputPanel = document.getElementsByClassName("chat-input-panel")[0];
@@ -514,15 +575,14 @@
 			let messageInput = messageGrid.querySelector("textarea.message-input");
 			let messageDeletion = messageGrid.querySelector("div.message-deletion-wrapper");
 
-			messageRole.onclick = function() { this.textContent = (this.textContent == "user")? "assistant":"user"; }
-			messageInput.oninput = function() { this.style.height = ""; this.style.height = this.scrollHeight + "px";};
-			messageDeletion.onclick = function() { this.parentElement.remove(); }
+			messageRole.onclick = function() { switchRoleOfMessage(this); };
+			messageInput.oninput = function() { setHeightOfTextarea(this); };
+			messageDeletion.onclick = function() { removeMessageGrid(this); };
 
 			
 			let templateMessageGrid = messageGrid.cloneNode(true);
 			
 			let addMessageGrid = document.getElementsByClassName("add-message-grid")[0];
-			
 			function addMessage(role, message) {
 				// get the elements
 				let messageGridCopy = templateMessageGrid.cloneNode(true);
@@ -531,23 +591,24 @@
 				let messageDeletion = messageGridCopy.querySelector("div.message-deletion-wrapper");
 				// set initial values
 				messageRole.textContent = role;
-				messageInput.value = message;
+				messageInput.textContent = message;
 				// bind listeners
-				messageRole.onclick = function() { this.textContent = (this.textContent == "user")? "assistant":"user"; }
-				messageInput.oninput = function() { this.style.height = ""; this.style.height = this.scrollHeight + "px";};
-				messageDeletion.onclick = function() { this.parentElement.remove(); }
+				messageRole.onclick = function() { switchRoleOfMessage(this); };
+				messageInput.oninput = function() { setHeightOfTextarea(this); };
+				messageDeletion.onclick = function() { removeMessageGrid(this); };
 				// append the new node to tree
 				chatInputPanel.appendChild(messageGridCopy);
 				// set the initial size of text area
 				messageInput.oninput();
 				// set the panel scroll to bottom and show latest message
 				chatMessagePanel.scrollTop = chatMessagePanel.scrollHeight;
+				
+				return messageInput;
 			}
 
 			addMessageGrid.addEventListener("click", function(){
 				addMessage("user", "");
-			})
-
+			});
 
 			// sliders
 			let temperature = document.getElementById("temperature");
@@ -563,65 +624,120 @@
 			})
 			
 			// request from open-ai
-			function sendMessageToGPT() {
+			async function sendMessageToGPT() {
+			
 				// disable the submit button
 				submitChatButton.disabled = true;
 				submitChatButton.style.opacity = 0.4;
-				// url of open-ai api
-				const url = 'https://api.openai.com/v1/chat/completions';
+				
 				// buffer of message to be sent
-				let messages = []
+				let messages = [];
+				
 				// get the system message
-				chatInstructionInput = document.getElementById("chat-instruction-input");
-				messages.push({role:"system", content: chatInstructionInput.value});
+				messages.push({
+					role:"system",
+					content: document.getElementById("chat-instruction-input").value
+				});
+				
 				// get the chat message
 				messageGrids = document.getElementsByClassName("message-grid");
 				for (let i = 0; i < messageGrids.length; i++) {
-					messageGrid = messageGrids[i];
-					messageRole= messageGrid.querySelector("span.message-role");
-					messageInput  = messageGrid.querySelector("textarea.message-input");
-					messages.push({role: messageRole.textContent, content: messageInput.value});
+					messages.push({
+						role: messageGrids[i].querySelector("span.message-role").textContent,
+						content: messageGrids[i].querySelector("textarea.message-input").value
+					});
 				}
-				// prepare the data by getting the message and set-up
-				const data = {
-					model: document.getElementById("model").value,
-					temperature: parseFloat(temperature.value),
-					presence_penalty: parseFloat(presence_penalty.value),
-					frequency_penalty: parseFloat(frequency_penalty.value),
-					max_tokens: parseInt(max_tokens.value),
-					top_p: parseFloat(top_p.value),
-					messages: messages
-				};
-				// start fetching
-				fetch(url, {
+				
+				// mode of output
+				let stream = (document.getElementById("mode").value == "true")? true: false;
+				
+				// url of open-ai api
+				const url = 'https://api.openai.com/v1/chat/completions';
+				
+				// request to open-ai
+				let request = {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
 						'Authorization': `Bearer ${document.getElementById("apikey").value}`,
 					},
-					body: JSON.stringify(data)
-				})
-				.then(response => response.json())
-				.then(data => {
-					let answer = "";
-					if (data.hasOwnProperty('choices')) {
-						answer = data.choices.at(-1).message.content;
-					}
-					else if (data.hasOwnProperty('error')) {
-						answer = data.error.message;
+					body: JSON.stringify({
+						model: document.getElementById("model").value,
+						temperature: parseFloat(temperature.value),
+						presence_penalty: parseFloat(presence_penalty.value),
+						frequency_penalty: parseFloat(frequency_penalty.value),
+						max_tokens: parseInt(max_tokens.value),
+						top_p: parseFloat(top_p.value),
+						stream: stream,
+						messages: messages
+					})
+				};
+				
+				// 创建输入框
+				let messageInput = addMessage("assistant", "loading...");
+				
+				const response = await fetch(url, request);
+				
+				if (response.status != 200) {
+					messageInput.textContent = `Fail to load resource: the server responded with a status of ${response.status}.`;
+				}
+				else {
+					// 创建缓存区
+					let buffer = "";
+				
+					// non-stream
+					if (stream == false) {
+					
+						let data = await response.json();
+						
+						if (data.hasOwnProperty('choices')) {
+							buffer = data.choices.at(-1).message.content;
+							messageInput.textContent = buffer;
+						}
+						
 					}
 					else {
-						answer = "Unknown Error";
+						//获取UTF8的解码
+						const encode = new TextDecoder("utf-8");
+						//获取body的reader
+						const reader = response.body.getReader();
+
+						// 循环读取reponse中的内容
+						while (true) {
+							const result = await reader.read();
+							if (result.done) {
+								break;
+							}
+							// 解码内容
+							const text = "" + encode.decode(result.value);
+							console.log(text);
+
+							let raw_data = text.match(/({.*})/g);
+											
+							if (raw_data == null) {
+								console.log(text);
+							}
+							else {
+								let data = JSON.parse(raw_data[raw_data.length-1]);
+								
+								if (data.hasOwnProperty('choices') && data.choices.length > 0 && data.choices[0].hasOwnProperty('delta') && data.choices[0].delta.hasOwnProperty('content')) {
+									buffer += data.choices[0].delta.content;
+									messageInput.textContent = buffer;
+									messageInput.oninput();
+									chatMessagePanel.scrollTop = chatMessagePanel.scrollHeight;
+								}
+							}
+						}
 					}
-					addMessage("assistant", answer);
-					submitChatButton.disabled = false;
-					submitChatButton.style.opacity = 1;
-				})
-				.catch(error => {
-					console.error(error);
-					submitChatButton.disabled = false;
-					submitChatButton.style.opacity = 1;
-				});
+				}
+
+				// update the message input box
+				messageInput.oninput();
+				// update the scroll position of the panel
+				chatMessagePanel.scrollTop = chatMessagePanel.scrollHeight;
+				// enable the submit button again
+				submitChatButton.disabled = false;
+				submitChatButton.style.opacity = 1;
 			}
 		</script>
 		
