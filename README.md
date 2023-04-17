@@ -13,9 +13,13 @@ Open the .html document -> paste your api key -> save and close -> start to use
 2. Open it by text editor.
 3. Replace the the placeholder by your own open-ai api key. 
 <br />`line 10:<br />
+
 const apiKeys = [<br />
-	{label: "API KEY 1", key: "YOUR_API_KEY_HERE"},<br />
-	{label: "API KEY 2", key: "YOUR_API_KEY_HERE"}<br />
+
+	{label: "API KEY 1", key: "YOUR_API_KEY_HERE"},
+	
+	{label: "API KEY 2", key: "YOUR_API_KEY_HERE"}
+	
 ];`
 4. Press Ctrl + S, and close the text editor.
 5. open the html file, and enjoy your AI.
