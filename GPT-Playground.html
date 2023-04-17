@@ -8,7 +8,6 @@
 	<script>
 	const apiKeys = [
 		{label: "API KEY 1", key: "YOUR_API_KEY_HERE"},
-		{label: "API KEY 2", key: "YOUR_API_KEY_HERE"}
 	];
     </script>
 	
@@ -537,30 +536,9 @@
 				spanObj.textContent = (spanObj.textContent == "user")? "assistant":"user";
 			}
 			
-			function setHeightOfTextarea(textareaObj) {
-			
+			function setHeightOfTextarea(textareaObj) {	
 				textareaObj.style.height = "auto";
 				textareaObj.style.height = textareaObj.scrollHeight + "px";
-				
-				/*
-				let style = window.getComputedStyle(textareaObj);
-				
-				textareaObj.removeAttribute('rows')
-				textareaObj.style.height = 'auto'
-				
-				let scrollHeight = textareaObj.scrollHeight;
-				let lineHeight = parseInt(style.getPropertyValue('line-height').replace("px", ""));
-				let paddingTop = parseInt(style.getPropertyValue('padding-Top').replace("px", ""));
-				let paddingBottom = parseInt(style.getPropertyValue('padding-Bottom').replace("px", ""));
-				let rowsNum = Math.round((scrollHeight - paddingTop - paddingBottom) / lineHeight)
-				textareaObj.setAttribute('rows', rowsNum)
-				
-				console.log(`scrollHeight ${scrollHeight}`);
-				console.log(`lineHeight ${lineHeight}`);
-				console.log(`paddingTop ${paddingTop}`);
-				console.log(`paddingBottom ${paddingBottom}`);
-				console.log(`rowsNum ${rowsNum}`);
-				*/
 			}
 			
 			function removeMessageGrid(divObj) {
@@ -710,22 +688,15 @@
 							}
 							// 解码内容
 							const text = "" + encode.decode(result.value);
-							console.log(text);
-
-							let raw_data = text.match(/({.*})/g);
-											
-							if (raw_data == null) {
-								console.log(text);
-							}
-							else {
-								let data = JSON.parse(raw_data[raw_data.length-1]);
-								
-								if (data.hasOwnProperty('choices') && data.choices.length > 0 && data.choices[0].hasOwnProperty('delta') && data.choices[0].delta.hasOwnProperty('content')) {
-									buffer += data.choices[0].delta.content;
-									messageInput.textContent = buffer;
-									messageInput.oninput();
-									chatMessagePanel.scrollTop = chatMessagePanel.scrollHeight;
-								}
+							
+							// 循环查找内容
+							const regex = /data: {"id":".*?","object":".*?","created":.*?,"model":".*?","choices":\[\{"delta":\{"content":"(.*?)"\},"index":.*?,"finish_reason":.*?\}\]}/g;
+							const matches = text.matchAll(regex);
+							for (const match of matches) {
+								buffer += match[1];
+								messageInput.textContent = JSON.parse(`"${buffer}"`);
+								messageInput.oninput();
+								chatMessagePanel.scrollTop = chatMessagePanel.scrollHeight;
 							}
 						}
 					}
