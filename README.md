@@ -1,12 +1,7 @@
 # ChatGPT-Playground-By-API
 
-## 99%还原GPT playground，是流式输出！把你的api key放进去就可以用了！！！
+100% simulate gpt playground
 
-## Aim
- - Use ChatGPT Playground by api key in areas blocked by OpenAI, e.g., Russia, China, Cuba and etc.
- - Use one html file only.
- - Save all lazy guys (don't want to turn-on vpn) in blocked area. Yeah.
- 
 ## How to use
 Open the .html document -> paste your api key -> save and close -> start to use
 
