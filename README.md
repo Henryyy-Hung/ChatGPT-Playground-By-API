@@ -11,4 +11,4 @@ Open the .html document -> paste your api key -> save and close -> start to use
 5. open the .html file, and enjoy your AI.
 
 ## Demo
-![image](https://user-images.githubusercontent.com/78750074/233300377-d7832934-3b64-4582-934c-c81598f82041.png)
+![image](https://user-images.githubusercontent.com/78750074/233301428-1658ec42-dfce-4f65-859c-428fe6caa81d.png)
