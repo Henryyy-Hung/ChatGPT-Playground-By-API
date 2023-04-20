@@ -1,7 +1,5 @@
 # ChatGPT-Playground-By-API
 
-100% simulate gpt playground
-
 ## How to use
 Open the .html document -> paste your api key -> save and close -> start to use
 
@@ -13,4 +11,4 @@ Open the .html document -> paste your api key -> save and close -> start to use
 5. open the html file, and enjoy your AI.
 
 ## Demo
-![image](https://user-images.githubusercontent.com/78750074/232292140-ecf304ef-4705-4cd7-a3a4-ac9a10e64dbd.png)
+![image](https://user-images.githubusercontent.com/78750074/233300377-d7832934-3b64-4582-934c-c81598f82041.png)
