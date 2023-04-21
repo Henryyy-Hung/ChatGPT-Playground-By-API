@@ -2,20 +2,24 @@
 <html lang="en">
 	
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Chat-GPT Playground</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat-GPT Playground</title>
 	
 	<script>
+		
 		const apiKeys = [
 			{label: "API KEY 1", key: "YOUR_API_KEY_HERE"}, // replace YOUR_API_KEY_HERE with your Open-AI API key.
 		];
+		
 	</script>
 	
 	<style>
+		
 		* {
 			box-sizing: border-box;
 		}
+		
 		html {
 			height: 100%;
 			margin: 0;
@@ -23,6 +27,7 @@
 			outline: 0;
 			border: 0;
 		}
+		
 		body {
 			display: flex;
 			flex-direction: column;
@@ -36,6 +41,7 @@
 			outline: none;
 			border: none;
 		}
+		
 		div.header {
 			display: flex;
 			margin: 0;
@@ -46,6 +52,7 @@
 			border-color: #ececf1;
 			flex: 0 0 0px;
 		}
+		
 		div.header>p {
 			display: block;
 			margin: 0 16px;
@@ -55,6 +62,7 @@
 			font-weight: bold;
 			color: #202123;
 		}
+		
 		div.main {
 			display: flex;
 			flex-direction: row;
@@ -67,6 +75,7 @@
 			padding: 16px;
 			flex: 1 1 0px;
 		}
+		
 		.chat-instruction-panel{
 			display: flex;
 			flex-direction: column;
@@ -81,6 +90,7 @@
 			overflow: hidden;
 			flex: 1 1 520px;
 		}
+		
 		.chat-panel {
 			display: flex;
 			flex-direction: column;
@@ -92,6 +102,7 @@
 			padding: 0 16px;
 			flex: 1 1 1200px;
 		}
+		
 		.parameter-panel {
 			height: 100%;
 			margin: 0;
@@ -105,7 +116,8 @@
 			font-variant: small-caps;
 			padding: 16px;
 			font-size: 16px;
-			font-family: Arial, serif;
+			font-family: sans-serif;
+			font-weight: bold;
 		}
 		
 		textarea.chat-instruction-input, textarea.chat-instruction-input:focus {
@@ -210,6 +222,7 @@
 		div[class$=message-grid] {
 			padding: 16px;
 		}
+		
 		div[class$=message-grid]:hover {
 			background: #f7f7f8;
 		}
@@ -303,6 +316,7 @@
 			text-align: left;
 			flex: 0 0 0px;
 		}
+		
 		button.submit-chat-button {
 			display: inline-flex;
 			justify-content: center;
@@ -312,12 +326,13 @@
 			border-radius: 3px;
 			background: #10a37f;
 			color: white;
-			font-family: var(--sans-serif);
+			font-family: sans-serif;
 			font-size: 14px;
 			font-weight: 400;
 			line-height: 20px;
 			cursor: pointer;
 		}
+		
 		button.submit-chat-button:hover {
 			background: #1a7f64;
 			color: white;
@@ -330,6 +345,7 @@
 			-ms-user-select: none;
 			user-select: none;
 		}
+		
 		select {
 			width: 100%;
 			padding: 8px;
@@ -339,6 +355,7 @@
 			background-color: transparent;
 
 		}
+		
 		select:active, select:focus {
 			outline: none;
 			box-shadow: none;
@@ -346,9 +363,8 @@
 		
 		@media only screen and (max-width : 1366px),  max-height: 768px {
 		}
-		
 
-	</style>
+    </style>
 	
 </head>
 
@@ -415,6 +431,16 @@
 		</div>
 
 		<div class="parameter-panel noselect">
+			
+			<div class="parameter-panel-grid">
+				<div class="parameter-info-wrapper">
+					<label class="parameter-name" for="apikey">API KEY</label>
+				</div>
+				<div class="parameter-menu-wrapper">
+					<select name="apikey" id="apikey">
+					</select>
+				</div>
+			</div>
 
 			<div class="parameter-panel-grid">
 				<div class="parameter-info-wrapper">
@@ -438,16 +464,6 @@
 					<select name="mode" id="mode">
 						<option value="true" selected>Stream</option>
 						<option value="false">Non-stream</option>
-					</select>
-				</div>
-			</div>
-
-			<div class="parameter-panel-grid">
-				<div class="parameter-info-wrapper">
-					<label class="parameter-name" for="apikey">API KEY</label>
-				</div>
-				<div class="parameter-menu-wrapper">
-					<select name="apikey" id="apikey">
 					</select>
 				</div>
 			</div>
@@ -516,7 +532,7 @@
 				dropDownMenu.innerHTML += `<option value="${apiKeys[i].key}">${apiKeys[i].label}</option>`;
 			}
 		}
-
+		
 		// containers of message grid
 		let chatMessagePanel = document.getElementsByClassName("chat-message-panel")[0];
 		let chatInputPanel = document.getElementsByClassName("chat-input-panel")[0];
@@ -558,6 +574,17 @@
 			chatMessagePanel.scrollTop = chatMessagePanel.scrollHeight;
 			// return the meesage input textarea for further configuration
 			return messageInput;
+		}
+		
+		function updateLoadingStatus(textareaObj, timeInterval=100, base=0) {
+			let frames = ["◜","◠","◝","◞","◡", "◟"];
+			let time = Math.floor(new Date().getTime() / timeInterval);
+			if (base == 0) {
+				base = time;
+			}
+			let frameNum = (time - base) % frames.length;
+			textareaObj.textContent =  frames[frameNum] + " Loading" + ".".repeat(frameNum);
+			return base;
 		}
 
 		// generate initial message grid
@@ -658,8 +685,17 @@
 
 			// create an message grid for receiving response
 			let messageInput = addMessage("assistant", "loading...");
-
+			
+			// update teh loading text periodically
+			let timeInterval = 100;
+			let base = updateLoadingStatus(messageInput, timeInterval, 0);
+			let t = setInterval(()=>{updateLoadingStatus(messageInput, timeInterval, base)}, timeInterval);
+			
+			// wait for response
 			const response = await fetch(url, request);
+			
+			// stop updating the loading text
+			clearInterval(t);
 
 			if (response.status != 200) {
 				messageInput.textContent = `Fail to load resource: the server responded with a status of ${response.status}.`;
@@ -675,6 +711,7 @@
 						buffer = data.choices.at(-1).message.content;
 						messageInput.textContent = buffer;
 					}
+					
 
 				}
 				// stream mode
