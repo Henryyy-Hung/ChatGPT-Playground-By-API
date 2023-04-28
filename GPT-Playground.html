@@ -9,15 +9,22 @@
 	<script>
 		
 		const apiKeys = [
-			{label: "API KEY 1", key: "YOUR_API_KEY_HERE"}, // replace YOUR_API_KEY_HERE with your Open-AI API key.
+			{label: "MY API KEY", key: "YOUR_API_KEY_HERE"}, // replace YOUR_API_KEY_HERE with your Open-AI API key.
 		];
 		
 	</script>
 	
 	<style>
-		
+
 		* {
 			box-sizing: border-box;
+			--color-Ghost-White: #f7f7f8;
+			--color-Lavender: #ececf1;
+			--color-Quartz: #d9d9e3;
+			--color-Lavender-grey: #c5c5d2;
+			--color-Free-Speech-Aquamarine: #10a37f;
+			--color-Deep-Sea: #1a7f64;
+			--color-Black-Russian: #202123;
 		}
 		
 		html {
@@ -49,7 +56,7 @@
 			align-items: center;
 			border-style: solid none;
 			border-width: 2px;
-			border-color: #ececf1;
+			border-color: var(--color-Lavender);
 			flex: 0 0 0px;
 		}
 		
@@ -60,7 +67,7 @@
 			outline: none;
 			font-size: 16px;
 			font-weight: bold;
-			color: #202123;
+			color: var(--color-Black-Russian);
 		}
 		
 		div.main {
@@ -73,6 +80,7 @@
 			width: 100%;
 			margin: 0;
 			padding: 16px;
+			overflow: hidden;
 			flex: 1 1 0px;
 		}
 		
@@ -85,7 +93,7 @@
 			height: 100%;
 			margin: 0;
 			padding: 0;
-			border: solid 1px #c5c5d2;
+			border: solid 1px var(--color-Lavender-grey);
 			border-radius: 8px;
 			overflow: hidden;
 			flex: 1 1 520px;
@@ -109,6 +117,7 @@
 			padding: 0;
 			border: none;
 			flex: 0 0 200px;
+			overflow: hidden;
 		}
 		
 		label.chat-instruction-title {
@@ -164,14 +173,14 @@
 		}
 		
 		input.parameter-value:hover, div.parameter-panel-grid:hover input.parameter-value {
-			border: solid 2px #ececf1;
+			border: solid 2px var(--color-Lavender);
 			outline: none;
 			border-radius: 5px;
 
 		}
 		
 		input.parameter-value:focus,  div.parameter-panel-grid:hover input.parameter-value:focus{
-			border: solid 2px #10a37f;
+			border: solid 2px var(--color-Free-Speech-Aquamarine);
 			outline: none;
 			border-radius: 5px;
 		}
@@ -180,7 +189,7 @@
 			-webkit-appearance: none;
 			-moz-appearance: none;
 			appearance: none;
-			background: linear-gradient(to right, #c5c5d2 0%, #c5c5d2 50%, #ececf1 50%, #ececf1 100%);
+			background: linear-gradient(to right, var(--color-Lavender-grey) 0%, var(--color-Lavender-grey) 50%, var(--color-Lavender) 50%, var(--color-Lavender) 100%);
 			width: 100%;
 			height: 4px;
 			margin: 0;
@@ -196,11 +205,11 @@
 			-webkit-appearance: none;
 			-moz-appearance: none;
 			appearance: none;
-			border: 2px solid #c5c5d2;
+			border: 2px solid var(--color-Lavender-grey);
 			height: 15px;
 			width: 15px;
 			border-radius: 50%;
-			background: #ffffff;
+			background: white;
 			cursor: pointer;
 		}
 		
@@ -216,7 +225,7 @@
 			align-items: center;
 			border-style: none none solid none;
 			border-width: 1px;
-			border-color: #c5c5d2;
+			border-color: var(--color-Lavender-grey);
 		}
 		
 		div[class$=message-grid] {
@@ -224,7 +233,7 @@
 		}
 		
 		div[class$=message-grid]:hover {
-			background: #f7f7f8;
+			background: var(--color-Ghost-White);
 		}
   
 		div.add-message-grid {
@@ -254,8 +263,8 @@
 		
 		div.message-input-wrapper {
 			disp1ay: block;
-			margin: 0;
-			padding: 0 16px;
+			margin: 0 16px;
+			padding: 12px 12px;
 			border: none;
 			outline: none;
 			min-height: 48px;
@@ -285,7 +294,7 @@
 		}
 		
 		span.message-role:hover {
-			background: #d9d9e3;
+			background: var(--color-Quartz);
 		}
 		
 		textarea.message-input, textarea.message-input:focus{
@@ -293,38 +302,39 @@
 			height: 48px;
 			background: transparent;
 			resize: none;
-			border: solid 2px transparent;
-			outline: none;
+			border: none;
+			outline-offset: 10px;
+			outline: solid 2px transparent;
 			margin: 0;
-			padding: 12px;
+			padding: 0;
 			line-height: 24px;
 			font-size: 16px;
 			box-sizing: border-box;
 			font-family: sans-serif;
 			letter-spacing: 1px;
-			overflow: hidden;
+			overflow: auto;
 		}
 		
 		textarea.message-input:focus {
 			background: white;
-			border: solid 2px #10a37f;
-			outline: none;
-			border-radius: 5px;
+			border-radius: 0.5px;
+			outline:solid 2px var(--color-Free-Speech-Aquamarine);
+			box-shadow: 0 0 0 10px white;
 		}
 	
 		div.chat-submit-panel {
+			position: relative;
 			text-align: left;
 			flex: 0 0 0px;
 		}
 		
-		button.submit-chat-button {
+		button {
 			display: inline-flex;
 			justify-content: center;
 			padding: 6px 12px;
-			margin: 0 auto;
+			margin: 0;
 			border: none;
 			border-radius: 3px;
-			background: #10a37f;
 			color: white;
 			font-family: sans-serif;
 			font-size: 14px;
@@ -333,8 +343,17 @@
 			cursor: pointer;
 		}
 		
+		button:hover {
+			color: white;
+		}
+		
+		button.submit-chat-button {
+			background: var(--color-Free-Speech-Aquamarine);
+			color: white;
+		}
+		
 		button.submit-chat-button:hover {
-			background: #1a7f64;
+			background: var(--color-Deep-Sea);
 			color: white;
 		}
 		
@@ -350,7 +369,7 @@
 			width: 100%;
 			padding: 8px;
 			margin-top: 8px;
-			border: 1px solid #c5c5d2;
+			border: 1px solid var(--color-Lavender-grey);
 			border-radius: 4px;
 			background-color: transparent;
 
@@ -359,9 +378,6 @@
 		select:active, select:focus {
 			outline: none;
 			box-shadow: none;
-		}
-		
-		@media only screen and (max-width : 1366px),  max-height: 768px {
 		}
 
     </style>
@@ -432,92 +448,100 @@
 
 		<div class="parameter-panel noselect">
 			
-			<div class="parameter-panel-grid">
-				<div class="parameter-info-wrapper">
-					<label class="parameter-name" for="apikey">API KEY</label>
-				</div>
-				<div class="parameter-menu-wrapper">
-					<select name="apikey" id="apikey">
-					</select>
-				</div>
-			</div>
+			<div class="dropdown-parameter-panel">
 
-			<div class="parameter-panel-grid">
-				<div class="parameter-info-wrapper">
-					<label class="parameter-name" for="model">Model</label>
+				<div class="parameter-panel-grid">
+					<div class="parameter-info-wrapper">
+						<label class="parameter-name" for="apikey">API KEY</label>
+					</div>
+					<div class="parameter-menu-wrapper">
+						<select name="apikey" id="apikey">
+						</select>
+					</div>
 				</div>
-				<div class="parameter-menu-wrapper">
-					<select name="model" id="model">
-						<option value="gpt-3.5-turbo" selected>gpt-3.5-turbo</option>
-						<option value="gpt-3.5-turbo-0301">gpt-3.5-turbo-0301</option>
-						<option value="gpt-4">gpt-4</option>
-						<option value="gpt-4-0314">gpt-4-0314</option>
-					</select>
-				</div>
-			</div>
 
-			<div class="parameter-panel-grid">
-				<div class="parameter-info-wrapper">
-					<label class="parameter-name" for="mode">Mode</label>
+				<div class="parameter-panel-grid">
+					<div class="parameter-info-wrapper">
+						<label class="parameter-name" for="model">Model</label>
+					</div>
+					<div class="parameter-menu-wrapper">
+						<select name="model" id="model">
+							<option value="gpt-3.5-turbo" selected>gpt-3.5-turbo</option>
+							<option value="gpt-3.5-turbo-0301">gpt-3.5-turbo-0301</option>
+							<option value="gpt-4">gpt-4</option>
+							<option value="gpt-4-0314">gpt-4-0314</option>
+						</select>
+					</div>
 				</div>
-				<div class="parameter-menu-wrapper">
-					<select name="mode" id="mode">
-						<option value="true" selected>Stream</option>
-						<option value="false">Non-stream</option>
-					</select>
-				</div>
-			</div>
 
-			<div class="parameter-panel-grid">
-				<div class="parameter-info-wrapper">
-					<label class="parameter-name" for="max_tokens">Maximum Length</label>
-					<input class="parameter-value" type="text" value="256" >
+				<div class="parameter-panel-grid">
+					<div class="parameter-info-wrapper">
+						<label class="parameter-name" for="mode">Mode</label>
+					</div>
+					<div class="parameter-menu-wrapper">
+						<select name="mode" id="mode">
+							<option value="true" selected>Stream</option>
+							<option value="false">Non-stream</option>
+						</select>
+					</div>
 				</div>
-				<div class="parameter-slider-wrapper">
-					<input class="parameter-slider" type="range" id="max_tokens" min="1" max="2048" step="1" value="1024">
-				</div>
+				
 			</div>
+			
+			<div class="slider-parameter-panel">
 
-			<div class="parameter-panel-grid">
-				<div class="parameter-info-wrapper">
-					<label class="parameter-name" for="temperature">Temperature</label>
-					<input class="parameter-value" type="text" value="0.7" >
+				<div class="parameter-panel-grid">
+					<div class="parameter-info-wrapper">
+						<label class="parameter-name" for="max_tokens">Maximum Length</label>
+						<input class="parameter-value" type="text" value="256" >
+					</div>
+					<div class="parameter-slider-wrapper">
+						<input class="parameter-slider" type="range" id="max_tokens" min="1" max="2048" step="1" value="1024">
+					</div>
 				</div>
-				<div class="parameter-slider-wrapper">
-					<input class="parameter-slider" type="range" id="temperature" min="0" max="1" step="0.01" value="0.7">
+
+				<div class="parameter-panel-grid">
+					<div class="parameter-info-wrapper">
+						<label class="parameter-name" for="temperature">Temperature</label>
+						<input class="parameter-value" type="text" value="0.7" >
+					</div>
+					<div class="parameter-slider-wrapper">
+						<input class="parameter-slider" type="range" id="temperature" min="0" max="1" step="0.01" value="0.7">
+					</div>
 				</div>
+
+				<div class="parameter-panel-grid">
+					<div class="parameter-info-wrapper">
+						<label class="parameter-name" for="top_p">Top P</label>
+						<input class="parameter-value" type="text" value="1" >
+					</div>
+					<div class="parameter-slider-wrapper">
+						<input class="parameter-slider" type="range" id="top_p" min="0" max="1" step="0.01" value="1">
+					</div>
+				</div>
+
+				<div class="parameter-panel-grid">
+					<div class="parameter-info-wrapper">
+						<label class="parameter-name" for="frequency_penalty">Frequency Penalty</label>
+						<input class="parameter-value" type="text" value="0" >
+					</div>
+					<div class="parameter-slider-wrapper">
+						<input class="parameter-slider" type="range" id="frequency_penalty" min="0" max="2" step="0.01" value="0">
+					</div>
+				</div>
+
+				<div class="parameter-panel-grid">
+					<div class="parameter-info-wrapper">
+						<label class="parameter-name" for="presence_penalty">Presence Penalty</label>
+						<input class="parameter-value" type="text" value="0" >
+					</div>
+					<div class="parameter-slider-wrapper">
+						<input class="parameter-slider" type="range" id="presence_penalty" min="0" max="2" step="0.01" value="0">
+					</div>
+				</div>
+				
 			</div>
-
-			<div class="parameter-panel-grid">
-				<div class="parameter-info-wrapper">
-					<label class="parameter-name" for="top_p">Top P</label>
-					<input class="parameter-value" type="text" value="1" >
-				</div>
-				<div class="parameter-slider-wrapper">
-					<input class="parameter-slider" type="range" id="top_p" min="0" max="1" step="0.01" value="1">
-				</div>
-			</div>
-
-			<div class="parameter-panel-grid">
-				<div class="parameter-info-wrapper">
-					<label class="parameter-name" for="frequency_penalty">Frequency Penalty</label>
-					<input class="parameter-value" type="text" value="0" >
-				</div>
-				<div class="parameter-slider-wrapper">
-					<input class="parameter-slider" type="range" id="frequency_penalty" min="0" max="2" step="0.01" value="0">
-				</div>
-			</div>
-
-			<div class="parameter-panel-grid">
-				<div class="parameter-info-wrapper">
-					<label class="parameter-name" for="presence_penalty">Presence Penalty</label>
-					<input class="parameter-value" type="text" value="0" >
-				</div>
-				<div class="parameter-slider-wrapper">
-					<input class="parameter-slider" type="range" id="presence_penalty" min="0" max="2" step="0.01" value="0">
-				</div>
-			</div>
-
+			
 		</div>
 	</div>
 
@@ -600,7 +624,7 @@
 		let submitChatButton = document.getElementById("submit-chat-button");
 		submitChatButton.addEventListener("click", function() {
 			sendMessageToGPT();
-		})
+		});
 
 		// sliders
 		let temperature = document.getElementById("temperature");
@@ -608,13 +632,17 @@
 		let top_p = document.getElementById("top_p");
 		let frequency_penalty = document.getElementById("frequency_penalty");
 		let presence_penalty = document.getElementById("presence_penalty");
-
+		
 		// initialize parameter sliders
+		let parameterPanel = document.querySelector("div.parameter-panel");
 		let parameterPanelGrids = document.getElementsByClassName("parameter-panel-grid");
+
+		// set up the parameter sliders
 		for (let i = 0; i < parameterPanelGrids.length; i++) {
 			// get the elements
 			let parameterValue = parameterPanelGrids[i].querySelector("input.parameter-value");		
 			let parameterSlider = parameterPanelGrids[i].querySelector("input.parameter-slider");
+			// only set up grids with slider
 			if (parameterValue == null || parameterSlider == null){
 				continue;
 			}
@@ -622,15 +650,25 @@
 			parameterSlider.oninput = function() {
 				parameterValue.value = this.value;
 				let value = (this.value-this.min)/(this.max-this.min)*100;
-				this.style.background = 'linear-gradient(to right, #c5c5d2 0%, #c5c5d2 ' + value + '%, #ececf1 ' + value + '%, #ececf1 100%)';
+				this.style.background = 'linear-gradient(to right, var(--color-Lavender-grey) 0%, var(--color-Lavender-grey) ' + value + '%, var(--color-Lavender) ' + value + '%, var(--color-Lavender) 100%)';
 			}
 			// associate parameterValue with parameterSlider
 			parameterValue.onchange = function() {
 				parameterSlider.value = this.value;
 				parameterSlider.oninput();
 			}
+			// initialize the slider
 			parameterSlider.oninput();
-			parameterSlider.oninput();
+		}
+		
+		window.addEventListener('load', checkOverflow);
+		window.addEventListener('resize', checkOverflow);
+		var dropdownParameterPanel = document.querySelector('div.dropdown-parameter-panel');
+
+		function checkOverflow() {
+			if (parameterPanel.scrollHeight > parameterPanel.clientHeight) {
+				dropdownParameterPanel.style.display = "none";
+			}
 		}
 
 		// request from open-ai
@@ -658,9 +696,6 @@
 				});
 			}
 
-			// mode of output
-			let stream = (document.getElementById("mode").value == "true")? true: false;
-
 			// url of open-ai api
 			const url = 'https://api.openai.com/v1/chat/completions';
 
@@ -678,7 +713,7 @@
 					frequency_penalty: parseFloat(frequency_penalty.value),
 					max_tokens: parseInt(max_tokens.value),
 					top_p: parseFloat(top_p.value),
-					stream: stream,
+					stream: (document.getElementById("mode").value == "true")? true: false,
 					messages: messages
 				})
 			};
@@ -697,23 +732,23 @@
 			// stop updating the loading text
 			clearInterval(t);
 
-			if (response.status != 200) {
-				messageInput.textContent = `Fail to load resource: the server responded with a status of ${response.status}.`;
-			}
-			else {
+			// handle the response accroding to status code
+			if (response.status == 200) {
+				
 				// buffer for response text
 				let buffer = "";
 
 				// non-stream mode
-				if (stream == false) {
+				if (request.body.stream == false) {
+					// get the json object of response
 					let data = await response.json();
+					// get the text message from json object
 					if (data.hasOwnProperty('choices')) {
 						buffer = data.choices.at(-1).message.content;
 						messageInput.textContent = buffer;
 					}
-					
-
 				}
+				
 				// stream mode
 				else {
 					const encode = new TextDecoder("utf-8");
@@ -731,13 +766,27 @@
 						const regex = /data: {"id":".*?","object":".*?","created":.*?,"model":".*?","choices":\[\{"delta":\{"content":"(.*?)"\},"index":.*?,"finish_reason":.*?\}\]}/g;
 						const matches = text.matchAll(regex);
 						for (const match of matches) {
+							// get the text message
 							buffer += match[1];
+							// update the input grid
 							messageInput.textContent = JSON.parse(`"${buffer}"`);
 							messageInput.oninput();
 							chatMessagePanel.scrollTop = chatMessagePanel.scrollHeight;
 						}
 					}
 				}
+			}
+			else {
+				let output = ""
+				try {
+					let data = await response.json();
+					output = `Error ${response.status} ${data.error.type}:\n\n${data.error.message}`
+				}
+				catch(err) {
+					output = `Error ${response.status}`
+				}
+				messageInput.textContent = output;
+
 			}
 
 			// update the message input box
