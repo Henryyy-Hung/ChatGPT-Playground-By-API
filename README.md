@@ -19,4 +19,4 @@
 
 ## Demo
 
-![image](https://user-images.githubusercontent.com/78750074/235348782-13225a5e-d258-4184-8ab4-4812a66b0582.png)
+![image](https://user-images.githubusercontent.com/78750074/235837032-f0a71b77-4874-4607-9fe3-cc72a886e409.png)
