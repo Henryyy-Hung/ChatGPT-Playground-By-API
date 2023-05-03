@@ -5,17 +5,25 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Chat-GPT Playground</title>
-	
+
 	<script>
-		
+
 		const apiKeys = [
 			{label: "MY API KEY", key: "YOUR_API_KEY_HERE"}, // replace YOUR_API_KEY_HERE with your Open-AI API key.
 		];
-		
+
 	</script>
 
 	<style>
-
+		
+		@font-face{
+			font-family: 'JetBrainsMono';
+			src: url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2') format('woff2'),
+				url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff/JetBrainsMono-Regular.woff') format('woff'),
+				url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/ttf/JetBrainsMono-Regular.ttf') format('truetype');
+			font-style: normal;
+		}
+		
 		* {
 			box-sizing: border-box;
 			--color-Ghost-White: #f7f7f8;
@@ -153,6 +161,150 @@
 			overflow:auto;
 		}
 		
+		div.chat-message-panel {
+			margin-bottom: 12px;
+			flex: 1 1 0px;
+			overflow: auto;
+		}
+		
+		div.message-grid {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			border-style: none none solid none;
+			border-width: 1px;
+			border-color: var(--color-Lavender-grey);
+		}
+		
+		div[class$=message-grid] {
+			padding: 16px;
+		}
+		
+		div[class$=message-grid]:hover {
+			background: var(--color-Ghost-White);
+		}
+  
+		div.add-message-grid {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		}
+		div.add-message-grid>span {
+			margin-left: 20px;
+			font-size: 14px;
+			font-weight: 700;
+			line-height: 20px;
+			vertical-align: middle;
+		}
+		
+		div.message-role-wrapper {
+			display: flex;
+			margin: 0;
+			padding: 0;
+			width: 100px;
+			height: 48px;
+			align-items: center;
+			align-content: center;
+			align-self: flex-start;
+			flex: 0 0 95px;
+		}
+		
+		div.message-input-wrapper {
+			display: flex;
+			margin: 0 16px;
+			padding: 12px 12px;
+			border: none;
+			outline: none;
+			min-height: 48px;
+			align-self: flex-start;
+			flex: 1 1 0px;
+		}
+		
+		div.message-deletion-wrapper {
+			display: flex;
+			align-content: center;
+			align-items: center;
+			align-self: flex-start;
+			margin-top: 14px;
+			margin-left
+			opacity: 0.4;
+			flex: 0 0 0px;
+		}
+		
+		div.message-deletion-wrapper:hover {
+			opacity: 1;
+		}
+		
+		span.message-role {
+			padding: 6px 12px;
+			font-variant: small-caps;
+			font-weight: 700;
+		}
+		
+		span.message-role:hover {
+			background: var(--color-Quartz);
+		}
+		
+		textarea.message-input, textarea.message-input:focus{
+			width: 100%;
+			height: 24px;
+			align-self: center;
+			background: transparent;
+			resize: none;
+			border: none;
+			outline-offset: 10px;
+			outline: solid 2px transparent;
+			margin: 0;
+			padding: 0;
+			font-size: 17px;
+			line-height: 24px;
+			font-family: sans-serif; //'JetBrainsMono'，sans-serif;
+			box-sizing: border-box;
+			overflow: hidden;
+		}
+		
+		textarea.message-input:focus {
+			background: white;
+			border-radius: 0.5px;
+			outline:solid 2px var(--color-Free-Speech-Aquamarine);
+			box-shadow: 0 0 0 10px white;
+		}
+	
+		div.chat-submit-panel {
+			position: relative;
+			text-align: left;
+			flex: 0 0 0px;
+		}
+		
+		button {
+			display: inline-flex;
+			justify-content: center;
+			padding: 6px 12px;
+			margin: 0;
+			border: none;
+			border-radius: 3px;
+			color: white;
+			font-family: sans-serif;
+			font-size: 14px;
+			font-weight: 400;
+			line-height: 20px;
+			cursor: pointer;
+		}
+		
+		button:hover {
+			color: white;
+		}
+		
+		button.submit-chat-button {
+			background: var(--color-Free-Speech-Aquamarine);
+			color: white;
+		}
+		
+		button.submit-chat-button:hover {
+			background: var(--color-Deep-Sea);
+			color: white;
+		}
+		
 		div.parameter-panel-grid {
 			margin-bottom: 24px;
 		}
@@ -224,158 +376,6 @@
 			cursor: pointer;
 		}
 		
-		div.chat-message-panel {
-			margin-bottom: 12px;
-			flex: 1 1 0px;
-			overflow: auto;
-		}
-		
-		div.message-grid {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			border-style: none none solid none;
-			border-width: 1px;
-			border-color: var(--color-Lavender-grey);
-		}
-		
-		div[class$=message-grid] {
-			padding: 16px;
-		}
-		
-		div[class$=message-grid]:hover {
-			background: var(--color-Ghost-White);
-		}
-  
-		div.add-message-grid {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-		}
-		div.add-message-grid>span {
-			margin-left: 20px;
-			font-size: 14px;
-			font-weight: 700;
-			line-height: 20px;
-			vertical-align: middle;
-		}
-		
-		div.message-role-wrapper {
-			display: flex;
-			margin: 0;
-			padding: 0;
-			width: 100px;
-			height: 48px;
-			align-items: center;
-			align-content: center;
-			align-self: flex-start;
-			flex: 0 0 95px;
-		}
-		
-		div.message-input-wrapper {
-			disp1ay: block;
-			margin: 0 16px;
-			padding: 12px 12px;
-			border: none;
-			outline: none;
-			min-height: 48px;
-			align-self: flex-start;
-			flex: 1 1 0px;
-		}
-		
-		div.message-deletion-wrapper {
-			display: flex;
-			align-content: center;
-			align-items: center;
-			align-self: flex-start;
-			margin-top: 14px;
-			margin-left
-			opacity: 0.4;
-			flex: 0 0 0px;
-		}
-		
-		div.message-deletion-wrapper:hover {
-			opacity: 1;
-		}
-		
-		span.message-role {
-			padding: 6px 12px;
-			font-variant: small-caps;
-			font-weight: 700;
-		}
-		
-		span.message-role:hover {
-			background: var(--color-Quartz);
-		}
-		
-		textarea.message-input, textarea.message-input:focus{
-			width: 100%;
-			height: 48px;
-			background: transparent;
-			resize: none;
-			border: none;
-			outline-offset: 10px;
-			outline: solid 2px transparent;
-			margin: 0;
-			padding: 0;
-			line-height: 24px;
-			font-size: 16px;
-			box-sizing: border-box;
-			font-family: sans-serif;
-			letter-spacing: 1px;
-			overflow: hidden;
-		}
-		
-		textarea.message-input:focus {
-			background: white;
-			border-radius: 0.5px;
-			outline:solid 2px var(--color-Free-Speech-Aquamarine);
-			box-shadow: 0 0 0 10px white;
-		}
-	
-		div.chat-submit-panel {
-			position: relative;
-			text-align: left;
-			flex: 0 0 0px;
-		}
-		
-		button {
-			display: inline-flex;
-			justify-content: center;
-			padding: 6px 12px;
-			margin: 0;
-			border: none;
-			border-radius: 3px;
-			color: white;
-			font-family: sans-serif;
-			font-size: 14px;
-			font-weight: 400;
-			line-height: 20px;
-			cursor: pointer;
-		}
-		
-		button:hover {
-			color: white;
-		}
-		
-		button.submit-chat-button {
-			background: var(--color-Free-Speech-Aquamarine);
-			color: white;
-		}
-		
-		button.submit-chat-button:hover {
-			background: var(--color-Deep-Sea);
-			color: white;
-		}
-		
-		.noselect {
-			-webkit-touch-callout: none;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-		}
-		
 		select {
 			width: 100%;
 			padding: 8px;
@@ -383,12 +383,109 @@
 			border: 1px solid var(--color-Lavender-grey);
 			border-radius: 4px;
 			background-color: transparent;
-
 		}
 		
 		select:active, select:focus {
 			outline: none;
 			box-shadow: none;
+		}
+		
+		div.parameter-type-switch-wrapper {
+			display: flex;
+			justify-content: center;
+			margin: 8px 0 24px 0;
+		}
+		
+		label.parameter-type-switch{
+			display: inline-block;、
+			position: relative;
+			margin: 0px;
+		}
+
+		label.parameter-type-switch > label.parameter-type-switch-inner{
+			display: block;
+			position: relative;
+			margin: 0px;
+			width: 140px;
+			height: 30px;
+			background: #E0E0E0;
+			border-radius: 26px;
+			overflow: hidden;
+			font-size: 13px;
+			color: #424242;
+			font-weight: 500;
+			transition: all 0.2s ease;
+			/*box-shadow: 0px 0px 8px 0px rgba(17, 17, 17, 0.34) inset;*/
+		}
+
+		label.parameter-type-switch > label.parameter-type-switch-inner:before{
+			content: attr(data-on);
+			position: absolute;
+			font-size: 12px;
+			font-weight: 500;
+			top: 7px;
+			right: 10px;
+
+		}
+
+		label.parameter-type-switch > label.parameter-type-switch-inner:after{
+			content: attr(data-off);
+			position: absolute;
+			padding: 5px 0px;
+			width: 70px;
+			height: 16px;
+			background: #fff;
+			border-radius: 26px;
+			box-shadow: 0px 0px 6px -2px #111;
+			left: 2px;
+			top: 2px;
+			text-align: center;
+			transition: all 0.3s ease;
+		}
+
+
+		label.parameter-type-switch input[type="checkbox"] {
+			position: absolute;
+			cursor: pointer;
+			margin: 0px;
+			width: 50px;
+			height: 25px;
+			font-size: 13px;
+			color: #424242;
+			font-weight: 500;
+			opacity: 0;
+			top: 0;
+			z-index: 1;
+
+		}
+
+		label.parameter-type-switch input[type="checkbox"]:checked + label.parameter-type-switch-inner{
+			/*background: #151515;*/
+			/*color: #fff;*/
+			/*background: var(--color-Deep-Sea);*/
+
+		}
+
+		label.parameter-type-switch input[type="checkbox"]:checked + label.parameter-type-switch-inner:after{
+			content: attr(data-on);
+			left: 68px;
+			/*background: #3c3c3c;*/
+			/*background: var(--color-Free-Speech-Aquamarine);*/
+
+		}
+
+		label.parameter-type-switch input[type="checkbox"]:checked + label.parameter-type-switch-inner:before{
+			content: attr(data-off);
+			right: auto;
+			left: 20px;
+		}
+
+		.noselect {
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
 		}
 
     </style>
@@ -450,7 +547,7 @@
 						</div>
 
 						<div class="message-deletion-wrapper">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="chat-message-remove-button" width="20" height="20">
+							<svg data-name="Delete Message Icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" width="20" height="20">
 								<path d="M10 16.6667C13.6819 16.6667 16.6667 13.6819 16.6667 10C16.6667 6.31811 13.6819 3.33334 10 3.33334C6.31814 3.33334 3.33337 6.31811 3.33337 10C3.33337 13.6819 6.31814 16.6667 10 16.6667Z" stroke="#6E6E80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
 								<path d="M7.33337 10H12.6667" stroke="#6E6E80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
 							</svg>
@@ -461,7 +558,7 @@
 				</div>
 
 				<div class="add-message-grid" id="add-message-grid">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="icon" width="20" height="20">
+					<svg data-name="Add Message Icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" class="icon" width="20px" height="20px">
 						<path d="M10 16.6667C13.6819 16.6667 16.6667 13.6819 16.6667 9.99999C16.6667 6.3181 13.6819 3.33333 10 3.33333C6.31814 3.33333 3.33337 6.3181 3.33337 9.99999C3.33337 13.6819 6.31814 16.6667 10 16.6667Z" stroke="#353740" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
 						<path d="M10 7.33333V12.6667" stroke="#353740" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
 						<path d="M7.33337 10H12.6667" stroke="#353740" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -471,14 +568,21 @@
 
 			</div>
 
-			<div class="chat-submit-panel">
+			<div class="chat-submit-panel" style="position: relative;">
 				<button class="submit-chat-button noselect" id="submit-chat-button">Submit</button>
 			</div>
 
 		</div>
 
 		<div class="parameter-panel noselect">
-
+			
+			<div class="parameter-type-switch-wrapper">
+				<label class="parameter-type-switch">
+					<input type="checkbox" name="parameter-type" id="parameter-type" value="0">
+					<label for="parameter-type" data-off="Basic" data-on="Finetune" class="parameter-type-switch-inner"></label>
+				</label>
+			</div>
+			
 			<div class="sub-parameter-panel" id="dropdown-parameter-panel">
 
 				<div class="parameter-panel-grid">
@@ -633,10 +737,15 @@
 		
 		// update height of all textarea in the message grid
 		function updateAllMessageGrid() {
+			let currentHeight = chatMessagePanel.scrollTop;
 			let messageGrids = document.getElementsByClassName("message-grid");
 			for (let i = 0; i < messageGrids.length; i++) {
-				messageGrids[i].querySelector("textarea.message-input").oninput();
+				let messageInput = messageGrids[i].querySelector("textarea.message-input");
+				messageInput.style.height = "0";
+				messageInput.style.height = messageInput.scrollHeight + "px";
 			}
+			// update the scroll position of the panel
+			chatMessagePanel.scrollTop = currentHeight;
 		}
 		
 		// display a loading animation when waiting response
@@ -701,7 +810,7 @@
 			parameterSlider.oninput();
 		}
 		
-		
+		// allow hide option bar by click the optionsButton
 		let optionsButton = document.querySelector('svg[data-name="Options"]');
 		optionsButton.addEventListener("click", function() {
 			if (parameterPanel.style.flex == "0 0 0px"){
@@ -715,6 +824,27 @@
 			setTimeout(function() {
 			  	updateAllMessageGrid();
 			}, 300);
+		});
+		
+		// initialize the sub parameter panel
+		let dropdownParameterPanel = document.getElementById("dropdown-parameter-panel");
+		let sliderParameterPanel = document.getElementById("slider-parameter-panel");
+		dropdownParameterPanel.style.display = "block";
+		sliderParameterPanel.style.display = "none";
+		
+		// change the sub parameter panel displayed when switch clicked
+		let parameterType = document.getElementById("parameter-type");
+		parameterType.addEventListener("change", (event) => {
+			// display dropdown parameters
+			if (! parameterType.checked) {
+				dropdownParameterPanel.style.display = "block";
+				sliderParameterPanel.style.display = "none";
+			}
+			// display slider parameters
+			else {
+				dropdownParameterPanel.style.display = "none";
+				sliderParameterPanel.style.display = "block";
+			}
 		});
 
 		// request from open-ai
@@ -822,6 +952,7 @@
 				}
 			}
 			else {
+				// display the error message returned by openAI
 				let output = ""
 				try {
 					let data = await response.json();
@@ -831,7 +962,6 @@
 					output = `Error ${response.status}`
 				}
 				messageInput.textContent = output;
-
 			}
 
 			// update the message input box
