@@ -226,7 +226,6 @@
 			align-items: center;
 			align-self: flex-start;
 			margin-top: 14px;
-			margin-left
 			opacity: 0.4;
 			flex: 0 0 0px;
 		}
@@ -258,7 +257,7 @@
 			padding: 0;
 			font-size: 17px;
 			line-height: 24px;
-			font-family: sans-serif; //'JetBrainsMono'，sans-serif;
+			font-family: sans-serif;
 			box-sizing: border-box;
 			overflow: hidden;
 		}
@@ -303,6 +302,11 @@
 		button.submit-chat-button:hover {
 			background: var(--color-Deep-Sea);
 			color: white;
+		}
+		
+		div.sub-parameter-panel {
+			display: block;
+			transition: 0.3s;
 		}
 		
 		div.parameter-panel-grid {
@@ -397,7 +401,7 @@
 		}
 		
 		label.parameter-type-switch{
-			display: inline-block;、
+			display: inline-block;
 			position: relative;
 			margin: 0px;
 		}
@@ -463,7 +467,6 @@
 			/*background: #151515;*/
 			/*color: #fff;*/
 			/*background: var(--color-Deep-Sea);*/
-
 		}
 
 		label.parameter-type-switch input[type="checkbox"]:checked + label.parameter-type-switch-inner:after{
@@ -837,13 +840,21 @@
 		parameterType.addEventListener("change", (event) => {
 			// display dropdown parameters
 			if (! parameterType.checked) {
-				dropdownParameterPanel.style.display = "block";
-				sliderParameterPanel.style.display = "none";
+				sliderParameterPanel.style.opacity = "0%";
+				setTimeout(function() {
+					sliderParameterPanel.style.display = "none";
+					dropdownParameterPanel.style.display = "block";
+					dropdownParameterPanel.style.opacity = "100%";
+				}, 300);
 			}
 			// display slider parameters
 			else {
-				dropdownParameterPanel.style.display = "none";
-				sliderParameterPanel.style.display = "block";
+				dropdownParameterPanel.style.opacity = "0%";
+				setTimeout(function() {
+					dropdownParameterPanel.style.display = "none";
+					sliderParameterPanel.style.display = "block";
+					sliderParameterPanel.style.opacity = "100%";
+				}, 300);
 			}
 		});
 
@@ -873,7 +884,7 @@
 			}
 
 			// url of open-ai api
-			const url = 'https://api.openai.com/v1/chat/completions';
+			const url = 'https://openai-api-proxy.uk/v1/chat/completions';
 
 			// request to open-ai
 			let request = {
